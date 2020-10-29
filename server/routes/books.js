@@ -26,16 +26,21 @@ router.get('/', (req, res, next) => {
 
 //  GET the Book Details page in order to add a new Book
 router.get('/add', (req, res, next) => {
-
+	res.render('books/details', {title:"Add a Book", books: {}});
 });
 
 // POST process the Book Details page and create a new Book - CREATE
 router.post('/add', (req, res, next) => {
+	let newBook = book({
+		Title: req.body.title,
+		Price: req.body.price,
+		Author: req.body.author,
+		Genre: req.body.genre,
+	});
 
-    /*****************
-     * ADD CODE HERE *
-     *****************/
+	book.create(newBook);
 
+	res.redirect('/books');
 });
 
 // GET the Book Details page in order to edit an existing Book
