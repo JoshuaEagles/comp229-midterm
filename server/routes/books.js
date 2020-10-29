@@ -45,27 +45,37 @@ router.post('/add', (req, res, next) => {
 
 // GET the Book Details page in order to edit an existing Book
 router.get('/:id', (req, res, next) => {
+	let id = req.params.id;
 
-    /*****************
-     * ADD CODE HERE *
-     *****************/
+	book.findById(id, (err, targetBook) => {
+		res.render('books/details', {title:"Edit a Book", books: targetBook});
+	});
 });
 
 // POST - process the information passed from the details form and update the document
 router.post('/:id', (req, res, next) => {
+	let id = req.params.id;
 
-    /*****************
-     * ADD CODE HERE *
-     *****************/
+	let editedBook = book({
+		_id: id,
+		Title: req.body.title,
+		Price: req.body.price,
+		Author: req.body.author,
+		Genre: req.body.genre,
+	});
 
+	book.update({_id: id}, editedBook, (err) => {
+		res.redirect('/books');
+	});
 });
 
 // GET - process the delete by user id
 router.get('/delete/:id', (req, res, next) => {
+	let id = req.params.id;
 
-    /*****************
-     * ADD CODE HERE *
-     *****************/
+	book.deleteOne({_id: id}, (err) => {
+		res.redirect('/books');
+	});
 });
 
 
